@@ -9,12 +9,16 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "parcel": "^2.13.3",
     "vite": "^6.0.5"
   },
   "dependencies": {
     "animejs": "^3.2.2",
     "four-in-a-row": "^1.0.1",
     "mine-sweeper-tag": "^1.0.6",
-    "minesweeper-lib": "^1.0.3"
+    "minesweeper-lib": "^1.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-snake-lib": "^1.0.9"
   }
 }
