@@ -1,104 +1,91 @@
-//Pokémon and HP
-let player = { name: "Obstagoon", hp: 150 };
-let opponent = { name: "Charmander", hp: 100 };
+//Start
+const apiEndpointPokemon = `https://pokeapi.co/api/v2/pokemon/`;
+let currentPokemon = null;
+let health = 3;
+let score = 0;
+let highScore = localStorage.getItem("highScore") || 0;
 
-// HTML <---> JS
-const log = document.getElementById("battle-log");
-const playerHp = document.getElementById("player-hp");
-const opponentHp = document.getElementById("opponent-hp");
-const scratchBtn = document.getElementById("scratch-btn");
-const splashBtn = document.getElementById("splash-btn");
-
-// Battle log 2 messages only
-let logHistory = [];
-
-// updates HP
-function updateHp() {
-  playerHp.textContent = player.hp;
-  opponentHp.textContent = opponent.hp;
+// GAME START
+function gameStart() {
+  document.querySelector(".score").textContent = `Score: ${score}`;
+  document.querySelector(".health").textContent = `Health: ${health}`;
+  document.querySelector(
+    ".high-score"
+  ).textContent = `High Score: ${highScore}`;
+  fetchRandomPokemon();
 }
 
-// 2 messages in LOG
-function logMessage(message) {
-  logHistory.push(message);
-  if (logHistory.length > 2) logHistory.shift();
-  log.textContent = logHistory.join("\n");
-}
+// Fetching API SHIT
+async function fetchRandomPokemon() {
+  try {
+    const randomID = Math.floor(Math.random() * 151) + 1;
+    const response = await fetch(`${apiEndpointPokemon}${randomID}`);
+    const data = await response.json();
+    currentPokemon = data;
 
-// Scratch
-function useScratch() {
-  disableButtons(); // letting you oneshot the enemy in one turn disabled
-  const damage = getRandomDamage(10, 15); // RNG ENABLED
-  opponent.hp -= damage;
-  if (opponent.hp < 0) opponent.hp = 0;
-  logMessage(`Obstagoon used Scratch! Charmander took ${damage} damage.`);
-  endTurn();
-}
+    // IMAGE
+    const pokemonImage = document.querySelector(".pokemon-image");
+    pokemonImage.src = data.sprites.other["official-artwork"].front_default;
 
-// Splash
-function useSplash() {
-  disableButtons(); // letting you oneshot the enemy in one turn disabled
-  logMessage("Obstagoon used Splash... But nothing happened!");
-  endTurn();
-}
-
-// Opponent's turn
-function opponentTurn() {
-  if (opponent.hp <= 0) return;
-  const damage = getRandomDamage(8, 12); // RNG ENABLED
-  player.hp -= damage;
-  if (player.hp < 0) player.hp = 0;
-  logMessage(`Charmander used Scratch! Obstagoon took ${damage} damage.`);
-  updateHp();
-  checkBattleOutcome();
-  enableButtons();
-}
-
-// End of turn
-function endTurn() {
-  updateHp();
-  checkBattleOutcome();
-  if (opponent.hp > 0 && player.hp > 0) {
-    setTimeout(opponentTurn, 2000);
+    // AUDIO
+    const audio = new Audio("audio/whosthat.mp3");
+    audio.play();
+  } catch (error) {
+    console.error("Failed to fetch Pokémon", error);
   }
 }
 
-// GAME OVER
-function checkBattleOutcome() {
-  if (opponent.hp <= 0) {
-    logMessage("Charmander fainted! You win!");
-    disableButtons();
-  } else if (player.hp <= 0) {
-    logMessage("Obstagoon fainted! You lose!");
-    disableButtons();
+// GUESS
+function letCook() {
+  const userGuess = document
+    .querySelector(".guess-input")
+    .value.toLowerCase()
+    .trim();
+  // WIN
+  if (!currentPokemon) return;
+
+  if (userGuess === currentPokemon.name) {
+    score++;
+    document.querySelector(".score").textContent = `Score: ${score}`;
+    alert("Correct! It's " + currentPokemon.name + "!");
+    fetchRandomPokemon();
+    //LOSE
+  } else {
+    health--;
+    document.querySelector(".health").textContent = `Health: ${health}`;
+
+    // SKIPS THE POKEMON WHEN LOSE
+    if (health > 0) {
+      alert(`It was ${currentPokemon.name}, better luck next time!`);
+      fetchRandomPokemon();
+    }
   }
+
+  // GAME OVER
+  if (health <= 0) {
+    alert("Game Over! Your final score is " + score);
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("highScore", highScore);
+    }
+    restartGame();
+  }
+  // Clear INPUT
+  document.querySelector(".guess-input").value = "";
 }
 
-// ONESHOT DISABLER
-function disableButtons() {
-  scratchBtn.disabled = true;
-  splashBtn.disabled = true;
+// RESTART
+function restartGame() {
+  score = 0;
+  health = 3;
+  gameStart();
 }
 
-// TURNBASED ENABLER
-function enableButtons() {
-  scratchBtn.disabled = false;
-  splashBtn.disabled = false;
-}
+// Event listeners
+document.querySelector(".guess-button").addEventListener("click", letCook);
+document
+  .querySelector(".restart-button")
+  .addEventListener("click", restartGame);
 
-// RNGESUS
-function getRandomDamage(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// buttons
-scratchBtn.addEventListener("click", useScratch);
-splashBtn.addEventListener("click", useSplash);
-
-//..... updates the hp
-updateHp();
-MUSIC;
-window.onload = function () {
-  const audio = document.getElementById("background-music");
-  audio.play();
-};
+// Start the game
+gameStart();
