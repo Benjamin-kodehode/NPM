@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>snake</title>
-</head>
-<body>
-  <div id="root"></div>
-  <script src="./torsnake.js" type="module"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="/snek.css" />
+  </head>
+  <body>
+    <div id="gameContainer">
+      <div id="scoreboard">
+        <span>Score: <span id="score">0</span></span>
+        <span>High Score: <span id="highScore">0</span></span>
+      </div>
+      <div id="buttons">
+        <button id="playButton">Play</button>
+        <button id="restartButton" disabled>Restart</button>
+      </div>
+      <canvas id="gameCanvas" width="400" height="400"></canvas>
+    </div>
+    <script src="/src/torsnake.js"></script>
+  </body>
 </html>
