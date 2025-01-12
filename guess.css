@@ -9,7 +9,7 @@ body {
   height: 80px;
 }
 .header {
-  background-color: #ff0000;
+  background-color: red;
   border: #000000 solid;
   border-width: 0px 0px 1px 0px;
   box-shadow: rgb(0, 0, 0) 0px 0px 5px;
@@ -34,6 +34,7 @@ body {
   width: 300px;
   height: 300px;
   margin-bottom: 20px;
+  margin-left: 75px;
 }
 
 input,

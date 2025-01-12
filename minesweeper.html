@@ -5,9 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minesweeper</title>
     <script type="module" src="index.js" defer></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style2.css" />
   </head>
   <body>
-    <mine-sweeper cols="20" bomb="50" beep></mine-sweeper>
+    <!-- Header2 stays at the top -->
+    <div class="header2">
+      <a href="./index.html"
+        ><img class="logo" src="./mine.png" alt="Logo"
+      /></a>
+    </div>
+
+    <!-- Minesweeper content centered -->
+    <main>
+      <mine-sweeper cols="20" bomb="50" beep></mine-sweeper>
+    </main>
   </body>
 </html>

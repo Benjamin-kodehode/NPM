@@ -1,0 +1,37 @@
+/* Header2 styling */
+.header2 {
+  background-color: black;
+  border: #000000 solid;
+  border-width: 0px 0px 1px 0px;
+  box-shadow: rgb(0, 0, 0) 0px 0px 5px;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 80px;
+}
+
+/* Body styling */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Main container styling */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
