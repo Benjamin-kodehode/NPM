@@ -1,74 +1,87 @@
 /* Basic page setup */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-  
-  /* Container for the game canvas and scoreboard */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #a5a1a1;
+  overflow: hidden; /* Prevent overflow issues */
+}
+
+/* Container for the game canvas and scoreboard */
+#gameContainer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #a5a1a1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 90%; /* Prevent container from exceeding viewport width */
+  max-height: 90%; /* Prevent container from exceeding viewport height */
+  overflow: auto; /* Allow scrolling if necessary */
+}
+
+/* Style the scoreboard */
+#scoreboard {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  color: #000000;
+}
+
+/* Canvas border and scaling */
+canvas {
+  border: 6px solid #806767;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Responsive scaling */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Buttons container */
+#buttons {
+  margin-bottom: 20px;
+}
+
+/* Button styles */
+button {
+  background-color: #21c527;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive layout for smaller screens */
+@media screen and (max-width: 600px) {
   #gameContainer {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-height: 90%;
   }
-  
-  /* Style the scoreboard */
-  #scoreboard {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
-    font-size: 1.2em;
-    color: #333;
-  }
-  
-  /* Canvas border */
+
   canvas {
-    border: 1px solid #333;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
   }
-  
-  /* Buttons container */
-  #buttons {
-    margin-bottom: 20px;
-  }
-  
-  /* Button styles */
-  button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Responsive layout for smaller screens */
-  @media screen and (max-width: 600px) {
-    #gameContainer {
-      width: 90%;
-    }
-  }
+}
+
   

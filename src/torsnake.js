@@ -1,13 +1,11 @@
-// src/snake.js
-
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const playButton = document.getElementById("playButton");
 const restartButton = document.getElementById("restartButton");
 
-const scale = 20;
-const rows = canvas.height / scale;
-const columns = canvas.width / scale;
+let scale = 20; // Initial scale
+let rows = canvas.height / scale;
+let columns = canvas.width / scale;
 
 let snake;
 let fruit;
@@ -19,12 +17,20 @@ let gameInterval;
   playButton.addEventListener("click", startGame);
   restartButton.addEventListener("click", restartGame);
   updateScoreboard();
+  updateCanvasDimensions(); // Adjust rows and columns initially
 })();
+
+function updateCanvasDimensions() {
+  // Dynamically calculate rows and columns based on the current canvas size
+  rows = canvas.height / scale;
+  columns = canvas.width / scale;
+}
 
 function startGame() {
   playButton.disabled = true;
   restartButton.disabled = false;
   score = 0;
+  updateCanvasDimensions(); // Recalculate grid dimensions
   snake = new Snake();
   fruit = new Fruit();
   gameInterval = setInterval(update, 100);
@@ -33,6 +39,7 @@ function startGame() {
 function restartGame() {
   score = 0;
   updateScoreboard();
+  updateCanvasDimensions(); // Recalculate grid dimensions
   snake = new Snake();
   fruit = new Fruit();
   clearInterval(gameInterval); // Stop the current game
@@ -54,9 +61,9 @@ function update() {
   if (snake.checkCollision()) {
     if (score > highScore) {
       highScore = score;
-      localStorage.setItem("highScore", highScore);  // Save high score to localStorage
+      localStorage.setItem("highScore", highScore); // Save high score to localStorage
     }
-    score = 0;  // Reset score
+    score = 0; // Reset score
     updateScoreboard();
     clearInterval(gameInterval); // Stop the game
     playButton.disabled = false; // Enable the Play button again
@@ -73,14 +80,19 @@ function Snake() {
   this.direction = "right";
   this.length = 1;
 
-  this.draw = function() {
+  this.draw = function () {
     ctx.fillStyle = "green";
     for (let i = 0; i < this.snakeArray.length; i++) {
-      ctx.fillRect(this.snakeArray[i].x * scale, this.snakeArray[i].y * scale, scale, scale);
+      ctx.fillRect(
+        this.snakeArray[i].x * scale,
+        this.snakeArray[i].y * scale,
+        scale,
+        scale
+      );
     }
   };
 
-  this.update = function() {
+  this.update = function () {
     let head = { ...this.snakeArray[0] };
 
     if (this.direction === "right") head.x++;
@@ -94,14 +106,14 @@ function Snake() {
     }
   };
 
-  this.changeDirection = function(event) {
+  this.changeDirection = function (event) {
     if (event.keyCode === 37 && this.direction !== "right") this.direction = "left";
     if (event.keyCode === 38 && this.direction !== "down") this.direction = "up";
     if (event.keyCode === 39 && this.direction !== "left") this.direction = "right";
     if (event.keyCode === 40 && this.direction !== "up") this.direction = "down";
   };
 
-  this.eat = function(fruit) {
+  this.eat = function (fruit) {
     if (this.snakeArray[0].x === fruit.x && this.snakeArray[0].y === fruit.y) {
       this.length++;
       return true;
@@ -109,7 +121,7 @@ function Snake() {
     return false;
   };
 
-  this.checkCollision = function() {
+  this.checkCollision = function () {
     if (
       this.snakeArray[0].x < 0 ||
       this.snakeArray[0].x >= columns ||
@@ -120,7 +132,10 @@ function Snake() {
     }
 
     for (let i = 1; i < this.snakeArray.length; i++) {
-      if (this.snakeArray[0].x === this.snakeArray[i].x && this.snakeArray[0].y === this.snakeArray[i].y) {
+      if (
+        this.snakeArray[0].x === this.snakeArray[i].x &&
+        this.snakeArray[0].y === this.snakeArray[i].y
+      ) {
         return true;
       }
     }
@@ -133,7 +148,7 @@ function Fruit() {
   this.x = Math.floor(Math.random() * columns);
   this.y = Math.floor(Math.random() * rows);
 
-  this.draw = function() {
+  this.draw = function () {
     ctx.fillStyle = "red";
     ctx.fillRect(this.x * scale, this.y * scale, scale, scale);
   };
